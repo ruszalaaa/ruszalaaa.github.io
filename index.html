@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Dodaj ogłoszenie</title>
+    <link rel="stylesheet" type="text/css" href="styl3.css">
+</head>
+<body>
+    <div id="baner">
+        <h2>Portal Ogłoszeniowy</h2>
+    </div>
+    <div id="lewy">
+        <h2>Kategorie</h2>
+        <ol>
+            <li>Książki</li>
+            <li>Muzyka</li>
+            <li>Filmy</li>
+        </ol>
+        <h2>Podkategorie</h2>
+        <ol>
+            <li>Romans</li>
+            <li>Biografia</li>
+            <li>Kryminał</li>
+            <li>Komiks</li>
+        </ol>
+        <img src="ksiazki.jpg" alt="Dodaj ogłoszenie"><br>
+        <a href="kwerendy.txt">Pobierz kwerendy</a>
+
+    </div>
+    <div id="prawy">
+        <h2>Anna Kowalska – dodanie ogłoszenia</h2>
+        <form method="POST" action="dodajRekord.php">
+            Kategoria:<br>
+            <input type="number" name="Kategoria" id="Kategoria">
+            <br>Podkategoria:<br>
+            <input type="number" name="Podkategoria" id="Podkategoria">
+            <br>Tytuł:<br>
+            <input type="text" name="Tytuł" id="Tytuł">
+            <br>Treść:<br>
+            <textarea type="text" name="Treść" id="Treść" cols="40" rows="10"></textarea>
+            <br>
+            <input class ="przyciski" type="reset" value="WYCZYŚĆ">
+            <input class ="przyciski" type="submit" value="ZAPISZ">
+        </form>
+    </div>
+    <div id="stopka">
+        Portal ogłoszeniowy opracował:władca murz i oceanuf szymon ruszala posejdon
+    </div>
+</body>
+</html>
