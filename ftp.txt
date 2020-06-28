@@ -1,0 +1,32 @@
+
+               +------------------------+
+               |LINUX FTP - KONFIGURACJA|
+               +------------------------+
+
+ +-----------------------------------------------------------+
+ |wszystkie polecenia wymagaja do dzialania uzycia konta root|
+ |aby to zrobic przez kazda komenda dopisz "sudo" lub przejdz|
+ |w tryb konta root poleceniem "sudo su"                     |
+ |pamietaj o uprawnieniach folderow i plikow, uzyj polecenia |
+ |chmod xxx nazwa_pliku aby zmienic uprawnienia.             |
+ +-----------------------------------------------------------+
+
+# ZARZADZANIE PROCESEM
+systemctl status vsftpd - sprawdzenie statusu serwera FTP
+systemctl restart vsftpd - resetowanie uslugi serwera FTP
+
+# SCIEZKI DO PLIKOW
+/etc/vsftpd.conf - plik konfiguracyjny FTP
+/srv/ftp - domyslny folder dla uzytkownikow anonimowych
+
+# FUNKCJE PLIKU VSFTPD.CONF 
+write_enable=YES - umozliwia opcje zapisu
+ftpd_banner=***Witamy*** - banner ftp
+* dwie funkcje dzieki ktorym uzytkownik nie bedzie mogl przegladac calego serwera a jedynie okreslony folder:
+  chroot_local_user=YES
+  allow_writeable_chroot=YES
+anonymous_enable=YES - wlaczenie dostepu dla uzytkownikow anonimowych
+anon_root=/home/nazwa_uzytkownika - zmiana sciezki domyslnej dla uzytkownikow anonimowych
+anon_upload_enable=YES - mozliwosc wysylania plikow na serwer przez uzytkownikow anonimowych
+anon_mkdir_write_enable=YES - mozliwosc tworzenia folderow dla uzytkownikow anonimowych
+
