@@ -11,6 +11,9 @@
  |chmod xxx nazwa_pliku aby zmienic uprawnienia.             |
  +-----------------------------------------------------------+
 
+# DZIALANIE
+get nazwa_pliku - pobieranie pliku
+put nazwa_pliku - umieszczanie pliku
 # ZARZADZANIE PROCESEM
 systemctl status vsftpd - sprawdzenie statusu serwera FTP
 systemctl restart vsftpd - resetowanie uslugi serwera FTP

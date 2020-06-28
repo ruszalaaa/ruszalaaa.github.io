@@ -1,0 +1,32 @@
+               +----------------------------+
+               |PODSTAWOWE POLECENIA - LINUX|
+               +----------------------------+
+
+ +-----------------------------------------------------------+
+ |wszystkie polecenia wymagaja do dzialania uzycia konta root|
+ |aby to zrobic przez kazda komenda dopisz "sudo" lub przejdz|
+ |w tryb konta root poleceniem "sudo su"                     |
+ +-----------------------------------------------------------+
+
+adduser nazwa_użytkownika - dodanie uzytkownika
+deluser nazwa_użytkownika - usuwanie uzytkownika
+addgroup nazwa_grupy - dodanie nowej grupy
+usermod -G nazwa_grupy -a nazwa_użytkownika - dodanie uzytkownika do grupy
+usermod -d /nazwa_katalogu nazwa_użytkownika - zmiana katalogu domowego (musi istniec)
+usermod -L nazwa_użytkownika - zablokowanie konta
+usermod -U nazwa_użytkownika - odblokowanie konta
+usermod -L nowa_nazwa_użytkownika poprzednia_nazwa_użytkownika - zmiana loginu
+
++-------+--------+----------+
+|read(r)|write(w)|execute(x)|
++-------+--------+----------+
+|   4   |   2    |    1     |
++-------+--------+----------+
+|user(u)|group(g)|others(o) |
++-------+--------+----------+
+|   u   |   g    |    o     |
++-------+--------+----------+
+
+chmod xyz nazwa_katalogu/pliku (lub sciezka) - nadanie praw xyz (patrz tabelka)
+chown nazwa_użytkownika nazwa_katalogu/pliku (lub ścieżka) - zmiana wlasciciela pliku
+chown :nazwa_grupy nazwa_katalogu/pliku (lub ścieżka) - zmiana grupy 

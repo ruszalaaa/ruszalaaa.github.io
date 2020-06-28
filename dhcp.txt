@@ -1,0 +1,28 @@
+
+               +-------------------------+
+               |DHCP LINUX - KONFIGURACJA|
+               +-------------------------+
+
+ +-----------------------------------------------------------+
+ |wszystkie polecenia wymagaja do dzialania uzycia konta root|
+ |aby to zrobic przez kazda komenda dopisz "sudo" lub przejdz|
+ |w tryb konta root poleceniem "sudo su"                     |
+ +-----------------------------------------------------------+
+
+
+# DHCP
+
+systemctl restart isc-dhcp-server - restuje usluge dhcp
+systemctl status isc-dhcp-server - wyswietla status uslugi dhcp
+/etc/default/isc-dhcp-server - podstawowe ustawienia dhcp (wpisanie interfejsu)
+/etc/dhcp/dhcpd.conf - zaawansowane ustawienia dhcp 
+dhcp-lease-list - status obecnie podlaczonych uzytkownikow
+*do dzialania wymaga edycji pliku /usr/sbin/dhcp-lease-list 
+ zmieniamy w nim my $LEASES = '/var/db/dhcpd.leases'
+                 na $LEASES = '/var/lib/dhcp/dhcpd.leases'
+*przypisanie statycznego ip dla adresu MAC
+host nazwa {
+	 hardware ethernet xx:xx:xx:xx:xx:xx; - adres mac
+	 fixed-address yyy.yyy.yyy.yyy; - adres ip
+ }
+
