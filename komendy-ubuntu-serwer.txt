@@ -1,0 +1,182 @@
+--------------------------------------------------------
+		KOMENDY UBUNTU SERWER
+--------------------------------------------------------	
+* niektóre polecenia wymagają uzycia na początku komendy
+	wpisania "sudo" lub korzystania z root'a.
+
+
+1. SSH 
+________________________________________________________
+apt install openssh-server - instalacja SSH
+systemctl status ssh - status SSH
+systemctl start ssh - wlaczenieSSH
+
+
+2. Uzytkownicy oraz grupy
+________________________________________________________
+adduser nazwa_użytkownika - dodanie uzytkownika
+* dodatkowe parametry:
+--gecos "imię nazwisko" - przypisanie imienia oraz nazwiska
+--uid 1234 - przypisanie uid (user id)
+--home /dane - przypisanie sciezki domyslnej
+--ingroup nazwa_grupy - dodanie do grupy
+
+deluser nazwa_użytkownika - usuwanie uzytkownika
+* dodatkowe parametry
+–-remove-home - usuwanie katalogu domowego
+
+addgroup nazwa_grupy - dodanie nowej grupy
+* dodatkowe parametry
+--gid 2000 - przypisanie gid (group id)
+delgroup nazwa_grupy - usuniecie grupy
+
+usermod -G nazwa_grupy -a nazwa_użytkownika - dodanie uzytkownika do grupy
+usermod -d /nazwa_katalogu nazwa_użytkownika - zmiana katalogu domowego (musi istniec)
+usermod -L nazwa_użytkownika - zablokowanie konta
+usermod -U nazwa_użytkownika - odblokowanie konta
+usermod -L nowa_nazwa_użytkownika poprzednia_nazwa_użytkownika - zmiana loginu
+
+
+3. Hasla uzytkownikow
+________________________________________________________
+chage -l nazwa_użytkownika - wyswietlenie ustawien uzytkownika
+chage -d 0 nazwa_użytkownika - wymuszenie zmiany hasla uzytkownika
+chage -E rok-miesiąc-dzień nazwa_użytkownika - ustawienia daty wygasniecia uzytkownika
+chage -M ilość_dni nazwa_użytkownika - waznosc hasla w dniach
+passwd nazwa_użytkownika - resetowanie hasla uzytkownika
+
+apt install libpam-pwquality - instalowanie pakietu umozliwiajacego ustalanie zlozonosci hasel
+nano /etc/pam.d/common-password - edytowanie ustawien hasel (pakietu)
+*na końcu linii 25 możemy dopisać następujące parametry:
+minlen – określający minimalną długość hasła, np. minlen=8
+dcredit – wymuszający zastosowanie cyfr, np. dcredit=-1
+lcredit – wymuszający zastosowanie małych liter, np. lcredit=-1
+ucredit – wymuszający zastosowanie wielkich liter, np. ucredit=-1
+ocredit – wymuszający zastosowanie znaków specjalnych, np. ocredit=-1
+enforce_for_root - wymusza stosowanie zasad zlozonosci hasel (bez tego polecenia system wyswietli komunikat ale ustawi haslo)
+
+*zapamietywanie hasel
+touch /etc/security/opasswd - utworzenie pliku w ktorym znajdowac beda sie zaszyfrowanie hasla
+chown root:root /etc/security/opasswd - zmiana wlasciciela na root
+chmod 600 /etc/security/opasswd - zmiana uprawnien 
+nano /etc/pam.d/common-password - edycja ustawien hasel (pakietu)
+w linii 26, po frazie pam_unix.so dodajemy opcję remember=[liczba hasel]
+remeber=5
+
+
+4. Uprawnienia do plikow i folderow
+________________________________________________________
+
+4.0 Tabela uprawnien liczbowych
++-------+--------+----------+
+|read(r)|write(w)|execute(x)|
++-------+--------+----------+
+|   4   |   2    |    1     |
++-------+--------+----------+
+|user(u)|group(g)|others(o) |
++-------+--------+----------+
+|   u   |   g    |    o     |
++-------+--------+----------+
+*dodatkowo
+t - lepki bit (brak mozliwosci usuwania pliku)
+
+ls -l wyswietlenie uprawnien do plikow
+
+4.1 Zapis literowy
+chmod x+y nazwa_katalogu/pliku (lub sciezka)- dodanie do grupy x uprawnien y
+chmod x-y nazwa_katalogu/pliku (lub sciezka)- usuniecie z grupy x uprawnien y
+x - u(user), g(group), o(others), a(all)
+y - r(read), w(write), x(execute)
+np.
+chmod o+w nazwa_katalogu/pliku (lub ścieżka) - dodanie pozostalym (others) prawa do zapisu w katalogu/pliku
+
+4.2 Zapis liczbowy
+chmod xyz nazwa_katalogu/pliku (lub sciezka) - nadanie praw xyz (patrz tabelka)
+np.
+chmod 764 nazwa_katalogu/pliku (lub ścieżka) - pelne prawa dla własciciela (4+2+1), prawa do odczytu i zapis dla grupy (4+2) oraz tylko odczyt (4) dla pozostalych w katalogu/pliku:
+ 
+4.3 Zmiana wlasciciela pliku
+chown nazwa_użytkownika nazwa_katalogu/pliku (lub ścieżka) - zmiana wlasciciela pliku
+chown :nazwa_grupy nazwa_katalogu/pliku (lub ścieżka) - zmiana grupy 
+chown nazwa_użytkownika:nazwa_grupy nazwa_katalogu/pliku (lub ścieżka) - jednoczesna zmiana wlasciciela oraz grupy
+
+4.4 Maski
+umask - wyswietlenie maski uprawnien (dziedziczenia)
+umask 000 - pelne uprawnienia dla wszystkich
+umask 077 - pelne uprawnienia dla wlasciciela, dla grupy oraz innych brak uprawnien
+umask 007 - pelne uprawnienia dla wlasciciela oraz grupy, dla innych brak uprawnien
+umask 026 - pelne uprawnienia dla wlasciciela, dla grupy odczyt i wykonanie, dla innych wykonanie
+
+4. Praca z plikami i katalogami
+________________________________________________________
+mkdir -m 755 nazwa katalogu - utworzenie katalogu i nadanie mu uprawnien 
+touch nazwa_pliku - utworzenie pliku pustego
+touch .ukryty - utworzeni ukrytego pliku
+file nazwa_pliku - wyświetlanie informacji na temat pliku
+cat nazwa_pliku - wyświetlanie zawartości pliku 
+grep tekst nazwa_pliku - wyswietlanie zawartosci pliku z wpisanym tekstem
+
+4.1 Kopiowanie oraz przenoszenie plikow
+cp dokumenty/2018/faktura1.txt zupa - skopiowanie pliku faktura1.txt do katalogu zupa
+cp dokumenty/2018/faktura1.txt zupa/nowa_faktura1.txt - skopiowanie oraz zmiana nazwy
+cp -r dokumenty roman/kopia_dokumenty - skopiowanie folderu WRAZ Z ZAWARTOSCIA do katalogu kopia dokumenty
+mv - przenoszenie plikow
+
+4.2 Usuwanie plików
+rm nazwa_pliku - usuwanie pliku
+rm -r dokumenty - usuwanie katalogu
+
+
+4.3 Strumieniowanie danych
+cat > plik - wpisanie tekstu z klawitatury do pliku
+cat >> plik - dodanie tekstu z klawiatury do pliku 
+polecenie > plik - wpisanie wyniku dzialania polecenia do pliku
+np, ls -l > foldery.txt - zapisze wynik dzialania ls -l do pliku foldery.txt
+
+
+5. Archiwizacja i kompresja danych
+________________________________________________________
+
+5.1 Tar
+tar -cf archiwum_dokumenty.tar dokumenty - utworzenie archiwum z dokumentow
+(c - tworzenie archiwum, f - nadanie nazwy z rozszerzeniem)
+tar -rf dok.tar dokumenty/2020/faktura12_2020.txt - dodanie kolejnego pliku do archiwum
+(r - dodawanie kolenych plikow)
+tar -czf dok.tar.gz dokumenty - utworzenie skompresowanego archiwum (gzip)
+tar -xf archiwum.tar - rozpakowanie archiwum
+(x - rozpakowywanie)
+
+5.1 gzip
+gzip archiwum.tar - kompresja archiwum
+gunzip archiwum.tar.gz - dekompresja archiwum
+
+
+5. Dowiazania
+________________________________________________________
+
+ln plik.txt link/link_do_plik.txt - utworzenie dowiązania do plik.txt (zapisuje kopie)
+ln -s plik2.txt kat/nowy_plik2.txt - drugi rodzaj dowiazania (kiedy usuniemy plik2.txt dowizania przestanie dzialac)
+
+
+6. Dyski
+________________________________________________________
+ls /dev/sd* - wysiwetlenie dyskow
+gdisk /dev/sdb - dzialanie na dysku
+mkfs.ext4 /dev/sdb1 - tworzenie systemu plikow ext4
+mount /dev/sdb1 /dysk2 - montowanie dysku2 pod katalog dysk2
+umount /dysk2 - odmontowanie dysku2
+df -h - sprawdzenie czy dysk zostal zamontowany
+
+6.1 LVM
+pvcreate /dev/sdb1 /dev/sdc - utworzenie fizyczznego woluminu LVM
+vgcreate gr1 /dev/dfb1 /dev/sdc - utworzenie grupy LVM
+vgdisplay - wyswietlenie grupy LVM
+lvcreate --name nazwa --size 12g gr1 - utworzenie patrycji z grupy LVM
+lvextend --size +1g --resizefs /dev/mapper/gr1-samba - rozszerzenie partycji o 1gb.
+lvs - sprawdzenie rozmiaru woluminow
+blkid /dev/mapper/gr1-samba - wyswietlanie id dysku
+
+6. Samba
+________________________________________________________
+nano /etc/samba/smb.conf - edycja ustawien samby
+service smbd restart - restowanie uslugi samby
