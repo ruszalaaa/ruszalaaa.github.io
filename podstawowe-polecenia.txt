@@ -8,6 +8,8 @@
  |w tryb konta root poleceniem "sudo su"                     |
  +-----------------------------------------------------------+
 
+7z a files.7z pliki - archiwizacja
+7z e files.7z - dekompresja
 adduser nazwa_użytkownika - dodanie uzytkownika
 deluser nazwa_użytkownika - usuwanie uzytkownika
 addgroup nazwa_grupy - dodanie nowej grupy
